@@ -1,0 +1,62 @@
+[
+  {
+    "myHand": "TWO_PAIR",
+    "bestHandScore": 500134,
+    "bestHandType": "STRAIGHT",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "PAIR",
+    "bestHandScore": 200425,
+    "bestHandType": "PAIR",
+    "isHandWinning": true
+  },
+  {
+    "myHand": "TWO_PAIR",
+    "bestHandScore": 400104,
+    "bestHandType": "TRIPLE",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "PAIR",
+    "bestHandScore": 600049,
+    "bestHandType": "FLUSH",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "TWO_PAIR",
+    "bestHandScore": 300437,
+    "bestHandType": "TWO_PAIR",
+    "isHandWinning": true
+  },
+  {
+    "myHand": "TWO_PAIR",
+    "bestHandScore": 401566,
+    "bestHandType": "TRIPLE",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "TRIPLE",
+    "bestHandScore": 408255,
+    "bestHandType": "TRIPLE",
+    "isHandWinning": true
+  },
+  {
+    "myHand": "TWO_PAIR",
+    "bestHandScore": 701064,
+    "bestHandType": "FULL_HOUSE",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "PAIR",
+    "bestHandScore": 500129,
+    "bestHandType": "STRAIGHT",
+    "isHandWinning": false
+  },
+  {
+    "myHand": "PAIR",
+    "bestHandScore": 300518,
+    "bestHandType": "TWO_PAIR",
+    "isHandWinning": false
+  }
+]

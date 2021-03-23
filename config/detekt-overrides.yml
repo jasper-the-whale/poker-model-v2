@@ -1,0 +1,15 @@
+build:
+  maxIssues: 10
+
+formatting:
+  NoWildcardImports:
+    active: false
+    autoCorrect: false
+
+performance:
+  SpreadOperator:
+    active: false
+
+style:
+  WildcardImport:
+    active: false

@@ -1,0 +1,8 @@
+# General
+server:
+  port: 8989 #Default value.
+---
+# Spring
+spring:
+  application:
+    name: poker-model

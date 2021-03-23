@@ -1,0 +1,28 @@
+{
+  "totalSimulations": 10,
+  "winProb": 0.3,
+  "expectedValue": 160,
+  "optimumBet": 429,
+  "myHandTypeProbabilities": {
+    "highCardProb": 0.0,
+    "pairProb": 0.4,
+    "twoPairProb": 0.5,
+    "tripleProb": 0.1,
+    "straightProb": 0.0,
+    "flushProb": 0.0,
+    "fullHouseProb": 0.0,
+    "quadrupleProb": 0.0,
+    "straightFlushProb": 0.0
+  },
+  "bestHandTypeProbabilities": {
+    "highCardProb": 0.0,
+    "pairProb": 0.1,
+    "twoPairProb": 0.2,
+    "tripleProb": 0.3,
+    "straightProb": 0.2,
+    "flushProb": 0.1,
+    "fullHouseProb": 0.1,
+    "quadrupleProb": 0.0,
+    "straightFlushProb": 0.0
+  }
+}
