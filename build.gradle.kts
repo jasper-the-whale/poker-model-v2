@@ -8,6 +8,7 @@ plugins {
     id ("io.spring.dependency-management") version "1.0.8.RELEASE"
     id ("io.github.http-builder-ng.http-plugin") version "0.1.1"
     id("io.gitlab.arturbosch.detekt") version "1.14.1"
+    id("jacoco")
     id ("application")
 }
 
@@ -38,9 +39,6 @@ dependencies {
     runtimeOnly ("com.h2database:h2")
     runtimeOnly ("org.springframework.boot:spring-boot-devtools")
     //TESTING
-//    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.6.0")
-//    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.5.2")
-
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
     testImplementation("io.mockk:mockk:1.10.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
