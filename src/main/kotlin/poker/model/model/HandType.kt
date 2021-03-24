@@ -1,6 +1,6 @@
 package poker.model.model
 
-enum class HandType(val initialScoreValue: Long) {
+enum class HandType(val initalHandScoreValue: Long) {
     HIGH_CARD(100_000L),
     PAIR(200_000L),
     TWO_PAIR(300_000L),

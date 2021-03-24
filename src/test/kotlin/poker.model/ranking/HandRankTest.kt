@@ -28,7 +28,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 900_242, type = HandType.STRAIGHT_FLUSH),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -49,7 +49,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 840_017, type = HandType.QUADRUPLE),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -70,7 +70,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 703_249, type = HandType.FULL_HOUSE),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -91,7 +91,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 600_047, type = HandType.FLUSH),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -112,7 +112,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 500_242, type = HandType.STRAIGHT),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -133,7 +133,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 403_021, type = HandType.TRIPLE),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -154,7 +154,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 300_249, type = HandType.TWO_PAIR),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -175,7 +175,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 200_226, type = HandType.PAIR),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }
@@ -196,7 +196,7 @@ internal class HandRankTest {
 
                 assertEquals(
                     HandScore(value = 100_049, type = HandType.HIGH_CARD),
-                    aHand.handRanking()
+                    aHand.toHandScore()
                 )
             }
         }

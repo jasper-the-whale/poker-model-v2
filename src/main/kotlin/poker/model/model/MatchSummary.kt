@@ -1,13 +1,13 @@
 package poker.model.model
 
-data class EventSummary(
+data class MatchSummary(
     val eventDetails: EventDetails,
     val myHandTypeProbabilities: HandProbabilities,
     val bestHandTypeProbabilities: HandProbabilities
 )
 
 data class EventDetails(
-    val totalSimulations: Long,
+    val totalSimulations: Int,
     val winProb: Double,
     val expectedValue: Long,
     val optimumBet: Long,

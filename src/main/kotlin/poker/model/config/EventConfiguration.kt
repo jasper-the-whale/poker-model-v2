@@ -19,6 +19,6 @@ data class EventConfiguration(
             val suit = Suit.getSuitFromNumber(it.rem(totalSuits))
             val weight = Weight.getValueFromNumber(it.div(totalSuits) + 2)
             Card(suit, weight)
-        }.shuffled()
+        }
     }
 }

@@ -11,30 +11,28 @@ class SimulationHandler(
     private val eventConfig: EventConfiguration = EventConfiguration(),
     private val matchSimulator: MatchSimulator = MatchSimulator()
 ) {
-    fun getMatchResults(tableDetails: TableDetails): List<MatchResult> {
-        val newDeck = eventConfig.getNewDeck()
-        val filteredDeck = newDeck removedKnowCards (tableDetails.myCards + tableDetails.tableCards)
-
-        return getSimulatedMatches(tableDetails, filteredDeck)
-
-        //return getMatchSummary(sim, tableDetails)
-    }
-
-    private fun getSimulatedMatches(tableDetails: TableDetails, deck: List<Card>): List<MatchResult> =
+    fun getMatchResults(tableDetails: TableDetails): List<MatchResult> =
         (0 until eventConfig.totalSims).toList().map {
-            val shuffledDeck = deck.shuffled()
+            val deck = eventConfig.getNewDeck()
+            val filteredDeck = deck remove (tableDetails.myCards + tableDetails.tableCards)
+            val shuffledDeck = filteredDeck.shuffled()
+
             val simulatedGame = matchSimulator.simulate(tableDetails, shuffledDeck)
 
-            MatchResult(
-                playerHand = simulatedGame.playerHand.type,
-                bestHandScore = simulatedGame.getBestHandScore(),
-                bestHandType = simulatedGame.getBestHandType(),
-                isHandWinning = simulatedGame.isMyHandBest()
-            )
+            toMatchResult(tableDetails, simulatedGame)
         }
 
-    private infix fun List<Card>.removedKnowCards(knowCards: List<Card>) =
+    private infix fun List<Card>.remove(knowCards: List<Card>) =
         this.filter { !knowCards.contains(it) }
+
+    private fun toMatchResult(tableDetails: TableDetails, matchOutcome: MatchOutcome) =
+        MatchResult(
+            tableDetails = tableDetails,
+            playerHand = matchOutcome.playerHand.type,
+            bestHandScore = matchOutcome.getBestHandScore(),
+            bestHandType = matchOutcome.getBestHandType(),
+            isHandWinning = matchOutcome.isMyHandBest()
+        )
 
     private fun MatchOutcome.isMyHandBest(): Boolean =
         this.playerHand.value > this.bestOpponentHand.value
