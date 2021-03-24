@@ -1,13 +1,13 @@
 package poker.model.ranking
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import poker.model.domain.Card
-import poker.model.domain.Weight
-import poker.model.domain.Suit
+import poker.model.model.Card
+import poker.model.model.Weight
+import poker.model.model.Suit
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import poker.model.domain.HandType
-import poker.model.domain.PlayerHandScore
+import poker.model.model.HandType
+import poker.model.model.HandScore
 
 internal class HandRankTest {
     @Nested
@@ -27,7 +27,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 900_242, handType = HandType.STRAIGHT_FLUSH),
+                    HandScore(value = 900_242, type = HandType.STRAIGHT_FLUSH),
                     aHand.handRanking()
                 )
             }
@@ -48,7 +48,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 840_017, handType = HandType.QUADRUPLE),
+                    HandScore(value = 840_017, type = HandType.QUADRUPLE),
                     aHand.handRanking()
                 )
             }
@@ -69,7 +69,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 703_249, handType = HandType.FULL_HOUSE),
+                    HandScore(value = 703_249, type = HandType.FULL_HOUSE),
                     aHand.handRanking()
                 )
             }
@@ -90,7 +90,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 600_047, handType = HandType.FLUSH),
+                    HandScore(value = 600_047, type = HandType.FLUSH),
                     aHand.handRanking()
                 )
             }
@@ -111,7 +111,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 500_242, handType = HandType.STRAIGHT),
+                    HandScore(value = 500_242, type = HandType.STRAIGHT),
                     aHand.handRanking()
                 )
             }
@@ -132,7 +132,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 403_021, handType = HandType.TRIPLE),
+                    HandScore(value = 403_021, type = HandType.TRIPLE),
                     aHand.handRanking()
                 )
             }
@@ -153,7 +153,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 300_249, handType = HandType.TWO_PAIR),
+                    HandScore(value = 300_249, type = HandType.TWO_PAIR),
                     aHand.handRanking()
                 )
             }
@@ -174,7 +174,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 200_226, handType = HandType.PAIR),
+                    HandScore(value = 200_226, type = HandType.PAIR),
                     aHand.handRanking()
                 )
             }
@@ -195,7 +195,7 @@ internal class HandRankTest {
                 )
 
                 assertEquals(
-                    PlayerHandScore(handScore = 100_049, handType = HandType.HIGH_CARD),
+                    HandScore(value = 100_049, type = HandType.HIGH_CARD),
                     aHand.handRanking()
                 )
             }

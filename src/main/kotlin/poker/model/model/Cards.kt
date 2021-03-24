@@ -1,4 +1,4 @@
-package poker.model.domain
+package poker.model.model
 
 data class Card(
     val suit: Suit,

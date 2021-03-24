@@ -2,9 +2,9 @@ package poker.model
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
-import poker.model.domain.Card
-import poker.model.domain.Suit
-import poker.model.domain.Weight
+import poker.model.model.Card
+import poker.model.model.Suit
+import poker.model.model.Weight
 
 @ConfigurationProperties(prefix = "event")
 @ConstructorBinding

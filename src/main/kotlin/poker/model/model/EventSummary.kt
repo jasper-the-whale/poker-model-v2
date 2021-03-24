@@ -1,6 +1,6 @@
-package poker.model.domain
+package poker.model.model
 
-data class Response(
+data class EventSummary(
     val eventDetails: EventDetails,
     val myHandTypeProbabilities: HandProbabilities,
     val bestHandTypeProbabilities: HandProbabilities
@@ -14,13 +14,13 @@ data class EventDetails(
 )
 
 data class HandProbabilities(
-    val highCardProb: Double,
-    val pairProb: Double,
-    val twoPairProb: Double,
-    val tripleProb: Double,
-    val straightProb: Double,
-    val flushProb: Double,
-    val fullHouseProb: Double,
-    val quadrupleProb: Double,
-    val straightFlushProb: Double
+    val highCard: Double,
+    val pair: Double,
+    val twoPair: Double,
+    val triple: Double,
+    val straight: Double,
+    val flush: Double,
+    val fullHouse: Double,
+    val quadruple: Double,
+    val straightFlush: Double
 )

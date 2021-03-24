@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import poker.model.domain.Card
-import poker.model.domain.Suit
-import poker.model.domain.Weight
+import poker.model.model.Card
+import poker.model.model.Suit
+import poker.model.model.Weight
 
 internal class SimulationHandlerTest {
     @Nested

@@ -1,4 +1,4 @@
-package poker.model.domain
+package poker.model.model
 
 enum class HandType(val initialScoreValue: Long) {
     HIGH_CARD(100_000L),

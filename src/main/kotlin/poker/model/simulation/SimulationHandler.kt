@@ -1,10 +1,10 @@
 package poker.model.simulation
 
 import poker.model.EventConfiguration
-import poker.model.domain.Card
-import poker.model.domain.HandType
-import poker.model.domain.MatchOutcome
-import poker.model.domain.MatchResult
+import poker.model.model.Card
+import poker.model.model.HandType
+import poker.model.model.MatchOutcome
+import poker.model.model.MatchResult
 import poker.model.transformer.TableDetails
 
 class SimulationHandler(
@@ -17,15 +17,16 @@ class SimulationHandler(
 
         return getSimulatedMatches(tableDetails, filteredDeck)
 
-        //return getMatchSummary(sim, tableDetails.pot, tableDetails.betToLose)
+        //return getMatchSummary(sim, tableDetails)
     }
 
     private fun getSimulatedMatches(tableDetails: TableDetails, deck: List<Card>): List<MatchResult> =
         (0 until eventConfig.totalSims).toList().map {
-            val simulatedGame = matchSimulator.simulate(tableDetails, deck)
+            val shuffledDeck = deck.shuffled()
+            val simulatedGame = matchSimulator.simulate(tableDetails, shuffledDeck)
 
             MatchResult(
-                myHand = simulatedGame.myHand.handType,
+                playerHand = simulatedGame.playerHand.type,
                 bestHandScore = simulatedGame.getBestHandScore(),
                 bestHandType = simulatedGame.getBestHandType(),
                 isHandWinning = simulatedGame.isMyHandBest()
@@ -36,13 +37,13 @@ class SimulationHandler(
         this.filter { !knowCards.contains(it) }
 
     private fun MatchOutcome.isMyHandBest(): Boolean =
-        this.myHand.handScore > this.bestOpponentHand.handScore
+        this.playerHand.value > this.bestOpponentHand.value
 
     private fun MatchOutcome.getBestHandScore(): Long =
-        if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handScore
-        else this.bestOpponentHand.handScore
+        if (this.playerHand.value > this.bestOpponentHand.value) this.playerHand.value
+        else this.bestOpponentHand.value
 
     private fun MatchOutcome.getBestHandType(): HandType =
-        if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handType
-        else this.bestOpponentHand.handType
+        if (this.playerHand.value > this.bestOpponentHand.value) this.playerHand.type
+        else this.bestOpponentHand.type
 }

@@ -1,9 +1,9 @@
 package poker.model.transformer
 
 import poker.model.EventConfiguration
-import poker.model.domain.Card
-import poker.model.domain.Suit
-import poker.model.domain.Weight
+import poker.model.model.Card
+import poker.model.model.Suit
+import poker.model.model.Weight
 
 class CardTransformer(
     private val eventConfig: EventConfiguration = EventConfiguration()

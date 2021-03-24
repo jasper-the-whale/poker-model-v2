@@ -1,46 +1,46 @@
 package poker.model.simulation
 
-import poker.model.domain.Response
-import poker.model.domain.EventDetails
-import poker.model.domain.HandProbabilities
-import poker.model.domain.HandType
-import poker.model.domain.MatchResult
+import poker.model.model.EventSummary
+import poker.model.model.EventDetails
+import poker.model.model.HandProbabilities
+import poker.model.model.HandType
+import poker.model.model.MatchResult
+import poker.model.transformer.TableDetails
 import kotlin.math.roundToLong
 
 fun getMatchSummary(
     sim: List<MatchResult>,
-    pot: Long,
-    betToLose: Long
-): Response {
+    tableDetails: TableDetails
+): EventSummary {
     val winProbability = sim.map { it.isHandWinning }.count { it }.div(sim.size.toDouble())
-    return Response(
+    return EventSummary(
         eventDetails = EventDetails(
             totalSimulations = sim.size.toLong(),
             winProb = winProbability,
-            expectedValue = calculateExpectedValue(winProbability, pot, betToLose),
-            optimumBet = calculateOptimumBet(winProbability, pot)
+            expectedValue = calculateExpectedValue(winProbability, tableDetails.pot, tableDetails.betToLose),
+            optimumBet = calculateOptimumBet(winProbability, tableDetails.pot)
         ),
         myHandTypeProbabilities = HandProbabilities(
-            highCardProb = sim.getProbOfMyHandType(HandType.HIGH_CARD),
-            pairProb = sim.getProbOfMyHandType(HandType.PAIR),
-            twoPairProb = sim.getProbOfMyHandType(HandType.TWO_PAIR),
-            tripleProb = sim.getProbOfMyHandType(HandType.TRIPLE),
-            straightProb = sim.getProbOfMyHandType(HandType.STRAIGHT),
-            flushProb = sim.getProbOfMyHandType(HandType.FLUSH),
-            fullHouseProb = sim.getProbOfMyHandType(HandType.FULL_HOUSE),
-            quadrupleProb = sim.getProbOfMyHandType(HandType.QUADRUPLE),
-            straightFlushProb = sim.getProbOfMyHandType(HandType.STRAIGHT_FLUSH)
+            highCard = sim.getProbOfMyHandType(HandType.HIGH_CARD),
+            pair = sim.getProbOfMyHandType(HandType.PAIR),
+            twoPair = sim.getProbOfMyHandType(HandType.TWO_PAIR),
+            triple = sim.getProbOfMyHandType(HandType.TRIPLE),
+            straight = sim.getProbOfMyHandType(HandType.STRAIGHT),
+            flush = sim.getProbOfMyHandType(HandType.FLUSH),
+            fullHouse = sim.getProbOfMyHandType(HandType.FULL_HOUSE),
+            quadruple = sim.getProbOfMyHandType(HandType.QUADRUPLE),
+            straightFlush = sim.getProbOfMyHandType(HandType.STRAIGHT_FLUSH)
         ),
         bestHandTypeProbabilities = HandProbabilities(
-            highCardProb = sim.getProbOfBestHandType(HandType.HIGH_CARD),
-            pairProb = sim.getProbOfBestHandType(HandType.PAIR),
-            twoPairProb = sim.getProbOfBestHandType(HandType.TWO_PAIR),
-            tripleProb = sim.getProbOfBestHandType(HandType.TRIPLE),
-            straightProb = sim.getProbOfBestHandType(HandType.STRAIGHT),
-            flushProb = sim.getProbOfBestHandType(HandType.FLUSH),
-            fullHouseProb = sim.getProbOfBestHandType(HandType.FULL_HOUSE),
-            quadrupleProb = sim.getProbOfBestHandType(HandType.QUADRUPLE),
-            straightFlushProb = sim.getProbOfBestHandType(HandType.STRAIGHT_FLUSH)
+            highCard = sim.getProbOfBestHandType(HandType.HIGH_CARD),
+            pair = sim.getProbOfBestHandType(HandType.PAIR),
+            twoPair = sim.getProbOfBestHandType(HandType.TWO_PAIR),
+            triple = sim.getProbOfBestHandType(HandType.TRIPLE),
+            straight = sim.getProbOfBestHandType(HandType.STRAIGHT),
+            flush = sim.getProbOfBestHandType(HandType.FLUSH),
+            fullHouse = sim.getProbOfBestHandType(HandType.FULL_HOUSE),
+            quadruple = sim.getProbOfBestHandType(HandType.QUADRUPLE),
+            straightFlush = sim.getProbOfBestHandType(HandType.STRAIGHT_FLUSH)
         )
     )
 }
@@ -52,7 +52,7 @@ private fun calculateOptimumBet(winProb: Double, cashToWin: Long): Long =
     (winProb * cashToWin).div(1 - winProb).roundToLong()
 
 private fun List<MatchResult>.getProbOfMyHandType(handType: HandType): Double =
-    this.map { it.myHand }.count { it == handType }.div(this.size.toDouble())
+    this.map { it.playerHand }.count { it == handType }.div(this.size.toDouble())
 
 private fun List<MatchResult>.getProbOfBestHandType(handType: HandType): Double =
     this.map { it.bestHandType }.count { it == handType }.div(this.size.toDouble())
