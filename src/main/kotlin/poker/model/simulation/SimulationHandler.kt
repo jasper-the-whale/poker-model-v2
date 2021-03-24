@@ -1,55 +1,48 @@
 package poker.model.simulation
 
-import poker.model.domain.ApiResponse
+import poker.model.EventConfiguration
 import poker.model.domain.Card
+import poker.model.domain.HandType
+import poker.model.domain.MatchOutcome
 import poker.model.domain.MatchResult
-import poker.model.domain.Suit
-import poker.model.domain.Weight
+import poker.model.transformer.TableDetails
 
-private const val TOTAL_CARDS = 52
-private const val TOTAL_SUITS = 4
+class SimulationHandler(
+    private val eventConfig: EventConfiguration = EventConfiguration(),
+    private val matchSimulator: MatchSimulator = MatchSimulator()
+) {
+    fun getMatchResults(tableDetails: TableDetails): List<MatchResult> {
+        val newDeck = eventConfig.getNewDeck()
+        val filteredDeck = newDeck removedKnowCards (tableDetails.myCards + tableDetails.tableCards)
 
-fun calculateOutcomeProbabilities(
-    totalSims: Long,
-    totalPlayers: Int,
-    pot: Long,
-    betToLose: Long,
-    myCards: List<Card>,
-    tableCards: List<Card>
-): ApiResponse {
-    val deck: List<Card> = getDeckOfCards().filter { !myCards.contains(it) && !tableCards.contains(it) }
-    val sim = getSimulatedMatches(totalSims, totalPlayers, deck, myCards, tableCards)
+        return getSimulatedMatches(tableDetails, filteredDeck)
 
-    return getMatchSummary(sim, pot, betToLose)
-}
-
-private fun getSimulatedMatches(
-    totalSims: Long,
-    totalPlayers: Int,
-    deck: List<Card>,
-    myCards: List<Card>,
-    tableCards: List<Card>
-): List<MatchResult> =
-    (0 until totalSims).toList().map {
-        val simulatedGame = simulateMatch(myCards, deck, tableCards, totalPlayers)
-        MatchResult(
-            myHand = simulatedGame.myHand.handType,
-            bestHandScore = simulatedGame.getBestHandScore(),
-            bestHandType = simulatedGame.getBestHandType(),
-            isHandWinning = simulatedGame.isMyHandBest()
-        )
+        //return getMatchSummary(sim, tableDetails.pot, tableDetails.betToLose)
     }
 
-private fun getDeckOfCards(): List<Card> {
-    return (0 until TOTAL_CARDS).toList().map {
-        val suit = Suit.getSuitFromNumber(it.rem(TOTAL_SUITS))
-        val weight = Weight.getValueFromNumber(it.div(TOTAL_SUITS) + 2)
-        Card(suit, weight)
-    }
-}
+    private fun getSimulatedMatches(tableDetails: TableDetails, deck: List<Card>): List<MatchResult> =
+        (0 until eventConfig.totalSims).toList().map {
+            val simulatedGame = matchSimulator.simulate(tableDetails, deck)
 
-fun Int.translateToCard(): Card {
-    val suit = Suit.getSuitFromNumber(this.rem(TOTAL_SUITS))
-    val weight = Weight.getValueFromNumber(this.div(TOTAL_SUITS) + 2)
-    return Card(suit, weight)
+            MatchResult(
+                myHand = simulatedGame.myHand.handType,
+                bestHandScore = simulatedGame.getBestHandScore(),
+                bestHandType = simulatedGame.getBestHandType(),
+                isHandWinning = simulatedGame.isMyHandBest()
+            )
+        }
+
+    private infix fun List<Card>.removedKnowCards(knowCards: List<Card>) =
+        this.filter { !knowCards.contains(it) }
+
+    private fun MatchOutcome.isMyHandBest(): Boolean =
+        this.myHand.handScore > this.bestOpponentHand.handScore
+
+    private fun MatchOutcome.getBestHandScore(): Long =
+        if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handScore
+        else this.bestOpponentHand.handScore
+
+    private fun MatchOutcome.getBestHandType(): HandType =
+        if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handType
+        else this.bestOpponentHand.handType
 }

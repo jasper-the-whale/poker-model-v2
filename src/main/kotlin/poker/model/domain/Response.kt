@@ -1,12 +1,16 @@
 package poker.model.domain
 
-data class ApiResponse(
+data class Response(
+    val eventDetails: EventDetails,
+    val myHandTypeProbabilities: HandProbabilities,
+    val bestHandTypeProbabilities: HandProbabilities
+)
+
+data class EventDetails(
     val totalSimulations: Long,
     val winProb: Double,
     val expectedValue: Long,
     val optimumBet: Long,
-    val myHandTypeProbabilities: HandProbabilities,
-    val bestHandTypeProbabilities: HandProbabilities
 )
 
 data class HandProbabilities(

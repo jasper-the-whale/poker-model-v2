@@ -5,7 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import poker.model.domain.ApiResponse
+import poker.model.domain.Response
 import poker.model.domain.MatchResult
 import java.io.File
 
@@ -18,7 +18,7 @@ internal class MatchSummaryTest {
             val matchResults: List<MatchResult> = mapper.readValue(
                 File("src/test/resources/MatchResultsExample.json").readText(Charsets.UTF_8)
             )
-            val expectedResult: ApiResponse = mapper.readValue(
+            val expectedResult: Response = mapper.readValue(
                 File("src/test/resources/ApiResponseExample.json").readText(Charsets.UTF_8)
             )
 

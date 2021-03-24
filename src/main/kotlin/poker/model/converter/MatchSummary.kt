@@ -1,6 +1,7 @@
 package poker.model.simulation
 
-import poker.model.domain.ApiResponse
+import poker.model.domain.Response
+import poker.model.domain.EventDetails
 import poker.model.domain.HandProbabilities
 import poker.model.domain.HandType
 import poker.model.domain.MatchResult
@@ -10,13 +11,15 @@ fun getMatchSummary(
     sim: List<MatchResult>,
     pot: Long,
     betToLose: Long
-): ApiResponse {
+): Response {
     val winProbability = sim.map { it.isHandWinning }.count { it }.div(sim.size.toDouble())
-    return ApiResponse(
-        totalSimulations = sim.size.toLong(),
-        winProb = winProbability,
-        expectedValue = calculateExpectedValue(winProbability, pot, betToLose),
-        optimumBet = calculateOptimumBet(winProbability, pot),
+    return Response(
+        eventDetails = EventDetails(
+            totalSimulations = sim.size.toLong(),
+            winProb = winProbability,
+            expectedValue = calculateExpectedValue(winProbability, pot, betToLose),
+            optimumBet = calculateOptimumBet(winProbability, pot)
+        ),
         myHandTypeProbabilities = HandProbabilities(
             highCardProb = sim.getProbOfMyHandType(HandType.HIGH_CARD),
             pairProb = sim.getProbOfMyHandType(HandType.PAIR),
@@ -29,7 +32,7 @@ fun getMatchSummary(
             straightFlushProb = sim.getProbOfMyHandType(HandType.STRAIGHT_FLUSH)
         ),
         bestHandTypeProbabilities = HandProbabilities(
-            highCardProb = sim.getProbOfMyHandType(HandType.HIGH_CARD),
+            highCardProb = sim.getProbOfBestHandType(HandType.HIGH_CARD),
             pairProb = sim.getProbOfBestHandType(HandType.PAIR),
             twoPairProb = sim.getProbOfBestHandType(HandType.TWO_PAIR),
             tripleProb = sim.getProbOfBestHandType(HandType.TRIPLE),

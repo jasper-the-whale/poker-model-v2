@@ -1,46 +1,38 @@
 package poker.model.simulation
 
+import poker.model.EventConfiguration
 import poker.model.domain.Card
 import poker.model.domain.HandType
 import poker.model.domain.MatchOutcome
 import poker.model.domain.PlayerHandScore
 import poker.model.ranking.handRanking
+import poker.model.transformer.TableDetails
 
-private const val MAX_TABLE_CARDS = 5
+class MatchSimulator(
+    private val eventConfig: EventConfiguration = EventConfiguration(),
+) {
+    fun simulate(tableDetails: TableDetails, deck: List<Card>): MatchOutcome {
+        val allTableCards = getSimulatedTableCards(tableDetails,deck)
+        val opponentHands = getRandomOpponentHands(tableDetails, deck)
 
-fun simulateMatch(
-    myCards: List<Card>, deck: List<Card>, currentTableCards: List<Card>, totalPlayers: Int
-): MatchOutcome {
-    val shuffledDeck = deck.shuffled()
-    val simulatedTable = currentTableCards.plus(
-        (0 until MAX_TABLE_CARDS - currentTableCards.size).toList()
-            .map { shuffledDeck[it] })
+        val bestOpponentHand = opponentHands.maxByOrNull { it.handScore }
+            ?: PlayerHandScore(0, HandType.HIGH_CARD)
 
-    val opponentHands =
-        getRandomOpponentHands(totalPlayers, shuffledDeck, currentTableCards, simulatedTable)
-    val bestOpponentHand = opponentHands.maxBy { it.handScore }
-        ?: PlayerHandScore(0, HandType.HIGH_CARD)
+        return MatchOutcome(tableDetails.myCards.plus(allTableCards).handRanking(), bestOpponentHand)
+    }
 
-    return MatchOutcome(myCards.plus(simulatedTable).handRanking(), bestOpponentHand)
+    private fun getSimulatedTableCards(tableDetails: TableDetails, deck: List<Card>) =
+        tableDetails.tableCards.plus(
+            (0 until eventConfig.maxTableCards - tableDetails.tableCards.size).toList().map { deck[it] })
+
+    private fun getRandomOpponentHands(tableDetails: TableDetails, deck: List<Card>): List<PlayerHandScore> =
+        (0 until tableDetails.totalPlayers).toList().map {
+            listOf(
+                deck[2 * it + eventConfig.maxTableCards - tableDetails.tableCards.size],
+                deck[2 * it + eventConfig.maxTableCards - tableDetails.tableCards.size + 1]
+            ).plus(tableDetails.tableCards)
+        }.map { it.handRanking() }
+
 }
 
-private fun getRandomOpponentHands(
-    totalPlayers: Int, shuffledDeck: List<Card>, tableCards: List<Card>, table: List<Card>
-): List<PlayerHandScore> =
-    (0 until totalPlayers).toList().map {
-        listOf(
-            shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size],
-            shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size + 1]
-        ).plus(table)
-    }.map { it.handRanking() }
 
-fun MatchOutcome.isMyHandBest(): Boolean =
-    this.myHand.handScore > this.bestOpponentHand.handScore
-
-fun MatchOutcome.getBestHandScore(): Long =
-    if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handScore
-    else this.bestOpponentHand.handScore
-
-fun MatchOutcome.getBestHandType(): HandType =
-    if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handType
-    else this.bestOpponentHand.handType
