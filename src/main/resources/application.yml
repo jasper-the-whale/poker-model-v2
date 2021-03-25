@@ -7,7 +7,7 @@ spring:
   application:
     name: poker-model
 
-event:
+match:
   totalCards: 52
   totalSuits: 4
   totalSims: 1000

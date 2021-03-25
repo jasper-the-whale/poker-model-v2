@@ -6,9 +6,9 @@ import poker.model.model.Card
 import poker.model.model.Suit
 import poker.model.model.Weight
 
-@ConfigurationProperties(prefix = "event")
+@ConfigurationProperties(prefix = "match")
 @ConstructorBinding
-data class EventConfiguration(
+data class MatchConfiguration(
     val totalCards: Int = 52,
     val totalSuits: Int = 4,
     val totalSims: Long = 1000,

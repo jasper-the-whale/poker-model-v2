@@ -1,6 +1,4 @@
-package poker.model.transformer
-
-import poker.model.model.Card
+package poker.model.model
 
 data class TableDetails(
     val totalPlayers: Int,

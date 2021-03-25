@@ -4,26 +4,26 @@ import poker.model.model.MatchSummary
 import poker.model.model.EventDetails
 import poker.model.model.HandProbabilities
 import poker.model.model.HandType
-import poker.model.model.MatchResult
-import poker.model.transformer.TableDetails
+import poker.model.model.MatchRecord
+import poker.model.model.MatchResults
+import poker.model.model.TableDetails
 import kotlin.math.roundToLong
 
 class MatchSummaryConverter {
-    fun getMatchSummary(matchResults: List<MatchResult>): MatchSummary {
-        val tableDetails = matchResults.first().tableDetails
-        val handTypesGrouped = groupByHandType(matchResults)
+    fun getMatchSummary(matchResults: MatchResults): MatchSummary {
+        val handTypesGrouped = groupByHandType(matchResults.matchRecords)
         val playerWinningHands = handTypesGrouped.mapToWinningHands()
         val opponentWinningHands = handTypesGrouped.mapToLosingHands()
-        val totalMatches = matchResults.size
+        val totalMatches = matchResults.matchRecords.size
 
         return MatchSummary(
-            eventDetails = getEventDetails(matchResults, tableDetails),
+            eventDetails = getEventDetails(matchResults.matchRecords, matchResults.tableDetails),
             myHandTypeProbabilities = getHandProbabilities(playerWinningHands, totalMatches),
             bestHandTypeProbabilities = getHandProbabilities(opponentWinningHands, totalMatches)
         )
     }
 
-    private fun getEventDetails(matchResults: List<MatchResult>, tableDetails: TableDetails): EventDetails {
+    private fun getEventDetails(matchResults: List<MatchRecord>, tableDetails: TableDetails): EventDetails {
         val winProbability = playerWinProbability(matchResults)
         return EventDetails(
             totalSimulations = matchResults.size,
@@ -33,7 +33,7 @@ class MatchSummaryConverter {
         )
     }
 
-    private fun playerWinProbability(matchResults: List<MatchResult>) =
+    private fun playerWinProbability(matchResults: List<MatchRecord>) =
         matchResults.map { it.isHandWinning }.count { it }.div(matchResults.size.toDouble())
 
     private fun calculateExpectedValue(winProb: Double, cashToWin: Long, cashToLose: Long): Long =
@@ -42,13 +42,13 @@ class MatchSummaryConverter {
     private fun calculateOptimumBet(winProb: Double, cashToWin: Long): Long =
         (winProb * cashToWin).div(1 - winProb).roundToLong()
 
-    private fun groupByHandType(matchResults: List<MatchResult>): Map<HandType, List<MatchResult>> =
+    private fun groupByHandType(matchResults: List<MatchRecord>): Map<HandType, List<MatchRecord>> =
         matchResults.groupBy { it.playerHand }
 
-    private fun Map<HandType, List<MatchResult>>.mapToWinningHands(): Map<HandType, Int> =
+    private fun Map<HandType, List<MatchRecord>>.mapToWinningHands(): Map<HandType, Int> =
         this.mapValues { it.value.filter { matchResult ->  matchResult.isHandWinning }.size }
 
-    private fun Map<HandType, List<MatchResult>>.mapToLosingHands(): Map<HandType, Int> =
+    private fun Map<HandType, List<MatchRecord>>.mapToLosingHands(): Map<HandType, Int> =
         this.mapValues { it.value.filter { matchResult -> !matchResult.isHandWinning }.size }
 
 

@@ -1,9 +1,11 @@
 package poker.model.model
 
-import poker.model.transformer.TableDetails
-
-data class MatchResult(
+data class MatchResults(
     val tableDetails: TableDetails,
+    val matchRecords: List<MatchRecord>
+)
+
+data class MatchRecord(
     val playerHand: HandType,
     val bestHandScore: Long,
     val bestHandType: HandType,

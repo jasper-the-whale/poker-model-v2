@@ -9,7 +9,7 @@ import poker.model.simulation.SimulationHandler
 import poker.model.transformer.CardTransformer
 
 @SpringBootApplication
-@EnableConfigurationProperties(EventConfiguration::class)
+@EnableConfigurationProperties(MatchConfiguration::class)
 class PokerModelApplication {
     @Bean
     fun cardTransformer() = CardTransformer()

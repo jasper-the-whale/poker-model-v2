@@ -1,12 +1,13 @@
 package poker.model.transformer
 
-import poker.model.EventConfiguration
+import poker.model.MatchConfiguration
 import poker.model.model.Card
 import poker.model.model.Suit
+import poker.model.model.TableDetails
 import poker.model.model.Weight
 
 class CardTransformer(
-    private val eventConfig: EventConfiguration = EventConfiguration()
+    private val matchConfig: MatchConfiguration = MatchConfiguration()
 ) {
     fun toTableDetails(totalPlayers: Int, pot: Long, betToLose: Long, myCards: List<Int>, tableCards: List<Int>) =
         TableDetails(
@@ -18,8 +19,8 @@ class CardTransformer(
         )
 
     private fun Int.toCard(): Card {
-        val suit = Suit.getSuitFromNumber(this.rem(eventConfig.totalCards))
-        val weight = Weight.getValueFromNumber(this.div(eventConfig.totalSuits) + 2)
+        val suit = Suit.getSuitFromNumber(this.rem(matchConfig.totalCards))
+        val weight = Weight.getValueFromNumber(this.div(matchConfig.totalSuits) + 2)
 
         return Card(suit, weight)
     }
