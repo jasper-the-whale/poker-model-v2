@@ -13,12 +13,4 @@ data class MatchConfiguration(
     val totalSuits: Int = 4,
     val totalSims: Long = 1000,
     val maxTableCards: Int = 5
-) {
-    fun getNewDeck(): List<Card> {
-        return (0 until totalCards).toList().map {
-            val suit = Suit.getSuitFromNumber(it.rem(totalSuits))
-            val weight = Weight.getValueFromNumber(it.div(totalSuits) + 2)
-            Card(suit, weight)
-        }
-    }
-}
+)

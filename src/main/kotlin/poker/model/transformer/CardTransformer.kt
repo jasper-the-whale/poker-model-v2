@@ -1,5 +1,6 @@
 package poker.model.transformer
 
+import org.springframework.stereotype.Component
 import poker.model.MatchConfiguration
 import poker.model.model.Card
 import poker.model.model.Suit
@@ -19,6 +20,10 @@ class CardTransformer(
         )
 
     private fun Int.toCard(): Card {
+        val totalCards = matchConfig.totalCards
+
+        val x = this.rem(matchConfig.totalCards)
+        val y = this.div(matchConfig.totalSuits) + 2
         val suit = Suit.getSuitFromNumber(this.rem(matchConfig.totalCards))
         val weight = Weight.getValueFromNumber(this.div(matchConfig.totalSuits) + 2)
 

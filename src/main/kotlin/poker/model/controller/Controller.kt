@@ -30,7 +30,7 @@ class Controller(
         val tableDetails = cardTransformer.toTableDetails(totalPlayers, pot, betToLose, myCards, tableCards)
 
         val matchResults = simulationHandler.getMatchResults(tableDetails)
-        val matchSummary = matchSummaryConverter.getMatchSummary(matchResults)
+        val matchSummary = matchSummaryConverter.convertToMatchSummary(matchResults)
 
         return ResponseEntity.status(HttpStatus.OK).body(matchSummary)
     }

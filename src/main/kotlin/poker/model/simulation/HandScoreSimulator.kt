@@ -21,6 +21,6 @@ abstract class HandScoreSimulator {
     }
 
     protected fun remainingTableCards(tableDetails: TableDetails, deck: List<Card>) =
-        tableDetails.tableCards.plus(
+        tableDetails.tableCards.mergeCards(
             (0 until matchConfig.maxTableCards - tableDetails.tableCards.size).toList().map { deck[it] })
 }
