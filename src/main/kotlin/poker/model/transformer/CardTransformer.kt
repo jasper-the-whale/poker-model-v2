@@ -1,31 +1,40 @@
 package poker.model.transformer
 
-import org.springframework.stereotype.Component
 import poker.model.MatchConfiguration
 import poker.model.model.Card
+import poker.model.model.TableSummary
+import poker.model.model.InvalidTableSummary
 import poker.model.model.Suit
 import poker.model.model.TableDetails
+import poker.model.model.ValidTableSummary
 import poker.model.model.Weight
 
 class CardTransformer(
     private val matchConfig: MatchConfiguration = MatchConfiguration()
 ) {
-    fun toTableDetails(totalPlayers: Int, pot: Long, betToLose: Long, myCards: List<Int>, tableCards: List<Int>) =
-        TableDetails(
-            totalPlayers = totalPlayers,
-            pot = pot,
-            betToLose = betToLose,
-            myCards = myCards.map { cardValue -> cardValue.toCard() },
-            tableCards = tableCards.map { cardValue -> cardValue.toCard() }
-        )
+    fun toTableDetails(
+        totalPlayers: Int,
+        pot: Long,
+        betToLose: Long,
+        myCards: List<Int>,
+        tableCards: List<Int>
+    ): TableSummary =
+        try {
+            val myCards = myCards.map { cardValue -> convertToCard(cardValue) }
+            val tableCards = tableCards.map { cardValue -> convertToCard(cardValue) }
 
-    private fun Int.toCard(): Card {
-        val totalCards = matchConfig.totalCards
+            ValidTableSummary(TableDetails(totalPlayers, pot, betToLose, myCards, tableCards))
+        } catch (e: NoSuchElementException) {
+            println("Invalid card inputs")
+            InvalidTableSummary
+        }
 
-        val x = this.rem(matchConfig.totalCards)
-        val y = this.div(matchConfig.totalSuits) + 2
-        val suit = Suit.getSuitFromNumber(this.rem(matchConfig.totalCards))
-        val weight = Weight.getValueFromNumber(this.div(matchConfig.totalSuits) + 2)
+    fun convertToCard(cardNumber: Int): Card {
+        val suitValue = cardNumber.rem(matchConfig.totalSuits)
+        val weightValue = (cardNumber - 1).div(matchConfig.totalSuits) + 2
+
+        val suit = Suit.getSuitFromNumber(suitValue)
+        val weight = Weight.getWeightFromNumber(weightValue)
 
         return Card(suit, weight)
     }

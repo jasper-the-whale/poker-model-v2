@@ -35,7 +35,7 @@ class SimulationHandler(
     fun getNewDeck(): List<Card> {
         return (0 until matchConfig.totalCards).toList().map {
             val suit = Suit.getSuitFromNumber(it.rem(matchConfig.totalSuits))
-            val weight = Weight.getValueFromNumber(it.div(matchConfig.totalSuits) + 2)
+            val weight = Weight.getWeightFromNumber(it.div(matchConfig.totalSuits) + 2)
             Card(suit, weight)
         }
     }

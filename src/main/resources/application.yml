@@ -10,5 +10,5 @@ spring:
 match:
   totalCards: 52
   totalSuits: 4
-  totalSims: 1000
+  totalSims: 10000
   maxTableCards: 5

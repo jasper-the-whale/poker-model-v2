@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import poker.model.model.MatchSummary
+import poker.model.model.ValidTableSummary
 import poker.model.simulation.MatchSummaryConverter
 import poker.model.simulation.SimulationHandler
 import poker.model.transformer.CardTransformer
@@ -27,11 +28,15 @@ class Controller(
         @RequestParam(value = "pot", defaultValue = "0") pot: Long,
         @RequestParam(value = "betToLose", defaultValue = "0") betToLose: Long
     ): ResponseEntity<MatchSummary?> {
-        val tableDetails = cardTransformer.toTableDetails(totalPlayers, pot, betToLose, myCards, tableCards)
+        val tableSummary = cardTransformer.toTableDetails(totalPlayers, pot, betToLose, myCards, tableCards)
 
-        val matchResults = simulationHandler.getMatchResults(tableDetails)
-        val matchSummary = matchSummaryConverter.convertToMatchSummary(matchResults)
+        return if (tableSummary is ValidTableSummary) {
+            val matchResults = simulationHandler.getMatchResults(tableSummary.tableDetails)
+            val matchSummary = matchSummaryConverter.convertToMatchSummary(matchResults)
 
-        return ResponseEntity.status(HttpStatus.OK).body(matchSummary)
+            ResponseEntity.status(HttpStatus.OK).body(matchSummary)
+        } else {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+        }
     }
 }
