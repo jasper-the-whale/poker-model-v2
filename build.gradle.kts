@@ -38,6 +38,8 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-mustache")
     runtimeOnly ("com.h2database:h2")
     runtimeOnly ("org.springframework.boot:spring-boot-devtools")
+    //SWAGGER
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
     //TESTING
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
     testImplementation("io.mockk:mockk:1.10.2")

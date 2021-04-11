@@ -6,3 +6,12 @@ server:
 spring:
   application:
     name: poker-model
+
+swagger:
+  prefix: poker-model
+
+match:
+  totalCards: 52
+  totalSuits: 4
+  totalSims: 10000
+  maxTableCards: 5

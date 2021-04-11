@@ -1,6 +1,6 @@
 package poker.model.ranking
 
-import poker.model.domain.Card
+import poker.model.model.Card
 
 private const val ALL_PICTURES_STRING = "2345678910JQKA"
 

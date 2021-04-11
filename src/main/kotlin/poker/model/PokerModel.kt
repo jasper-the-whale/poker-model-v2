@@ -1,52 +1,28 @@
 package poker.model
 
+
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
-import poker.model.domain.ApiResponse
-import poker.model.simulation.calculateOutcomeProbabilities
-import poker.model.simulation.translateToCard
+import org.springframework.context.annotation.Bean
+import org.springframework.beans.factory.annotation.Value
+import springfox.documentation.builders.RequestHandlerSelectors
+import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spring.web.plugins.Docket
 
 @SpringBootApplication
-class PokerModelApplication
+@EnableConfigurationProperties(MatchConfiguration::class)
+class PokerModelApplication {
+    @Bean
+    fun api(@Value("\${swagger.prefix}") prefix: String): Docket = Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths { !it.startsWith("/error") }
+        .build()
+        .pathMapping(prefix)
+}
 
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
     runApplication<PokerModelApplication>(*args)
-}
-
-@RestController
-class Controller {
-
-    @GetMapping("/outcomes")
-    @ResponseBody
-    fun getHandOutcomes(
-        @RequestParam(value = "totalSims", defaultValue = "10000") totalSims: Long,
-        @RequestParam(value = "totalPlayers", defaultValue = "2") totalPlayers: Int,
-        @RequestParam(value = "pot", defaultValue = "0") pot: Long,
-        @RequestParam(value = "betToLose", defaultValue = "0") betToLose: Long,
-        @RequestParam(value = "myCards") myCards: List<Int>,
-        @RequestParam(value = "tableCards", defaultValue = "") tableCards: List<Int>
-    ): ResponseEntity<ApiResponse> {
-        val myCardsTranslated = myCards.map { it.translateToCard() }
-        val tableCardsTranslated = tableCards.map { it.translateToCard() }
-
-        println(myCardsTranslated)
-        println(tableCardsTranslated)
-        val response = calculateOutcomeProbabilities(
-            totalSims,
-            totalPlayers,
-            pot,
-            betToLose,
-            myCardsTranslated,
-            tableCardsTranslated
-        )
-
-        return ResponseEntity.status(HttpStatus.OK).body(response)
-    }
 }

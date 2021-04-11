@@ -1,4 +1,4 @@
-package poker.model.domain
+package poker.model.model
 
 data class Card(
     val suit: Suit,
@@ -33,7 +33,7 @@ enum class Weight(val weightNumber: Int, val weightString: String) {
     ACE(14, "A");
 
     companion object {
-        fun getValueFromNumber(number: Int): Weight =
+        fun getWeightFromNumber(number: Int): Weight =
             values().first { it.weightNumber == number }
     }
 }

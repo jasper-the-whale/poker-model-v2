@@ -1,13 +1,13 @@
 package poker.model.ranking
 
-import poker.model.domain.Card
-import poker.model.domain.Weight
-import poker.model.domain.Suit
+import poker.model.model.Card
+import poker.model.model.Weight
+import poker.model.model.Suit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class HandResultsTest {
+class HandRankingsTest {
     private val muckHand = listOf(
         Card(Suit.SPADE, Weight.TEN),
         Card(Suit.HEART, Weight.KING),
@@ -22,7 +22,7 @@ internal class HandResultsTest {
     inner class isPair {
         @Test
         fun `should return true when there is a pair`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.TEN),
                 Card(Suit.HEART, Weight.TEN),
                 Card(Suit.DIAMOND, Weight.FOUR),
@@ -44,7 +44,7 @@ internal class HandResultsTest {
     inner class isTwoPair {
         @Test
         fun `should return true when there is a two pair`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.TEN),
                 Card(Suit.HEART, Weight.TEN),
                 Card(Suit.DIAMOND, Weight.FOUR),
@@ -66,7 +66,7 @@ internal class HandResultsTest {
     inner class isTriple {
         @Test
         fun `should return true when there is a three of a kind`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.TEN),
                 Card(Suit.HEART, Weight.TEN),
                 Card(Suit.DIAMOND, Weight.TEN),
@@ -89,7 +89,7 @@ internal class HandResultsTest {
     inner class isStraight {
         @Test
         fun `should return true when there is a straight`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.JACK),
                 Card(Suit.HEART, Weight.NINE),
                 Card(Suit.DIAMOND, Weight.TEN),
@@ -112,7 +112,7 @@ internal class HandResultsTest {
     inner class isFlush {
         @Test
         fun `should return true when there is a flush`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.DIAMOND, Weight.FOUR),
                 Card(Suit.DIAMOND, Weight.FIVE),
                 Card(Suit.CLUB, Weight.TEN),
@@ -134,7 +134,7 @@ internal class HandResultsTest {
     inner class isFullHouse {
         @Test
         fun `should return true when there is a full house`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.DIAMOND, Weight.TEN),
                 Card(Suit.SPADE, Weight.TEN),
                 Card(Suit.CLUB, Weight.TEN),
@@ -156,7 +156,7 @@ internal class HandResultsTest {
     inner class isQuadruple {
         @Test
         fun `should return true when there is a four of a kind`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.TEN),
                 Card(Suit.HEART, Weight.TEN),
                 Card(Suit.DIAMOND, Weight.TEN),
@@ -179,7 +179,7 @@ internal class HandResultsTest {
     inner class isStraightFlush {
         @Test
         fun `should return true when there is a straight flush`() {
-            val aHand = listOf<Card>(
+            val aHand = listOf(
                 Card(Suit.SPADE, Weight.JACK),
                 Card(Suit.SPADE, Weight.NINE),
                 Card(Suit.DIAMOND, Weight.SEVEN),

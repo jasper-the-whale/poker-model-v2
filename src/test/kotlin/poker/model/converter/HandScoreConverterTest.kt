@@ -1,17 +1,20 @@
-package poker.model.ranking
+package poker.model.converter
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import poker.model.domain.Card
-import poker.model.domain.Weight
-import poker.model.domain.Suit
+import poker.model.model.Card
+import poker.model.model.Weight
+import poker.model.model.Suit
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import poker.model.domain.HandType
-import poker.model.domain.PlayerHandScore
+import poker.model.model.HandType
+import poker.model.model.HandScore
 
-internal class HandRankTest {
+class HandScoreConverterTest {
+
+    private val handScoreConverter = HandScoreConverter()
+
     @Nested
-    inner class handRanking {
+    inner class convertToHandScore {
         @Nested
         inner class `when list of cards is a straight flush` {
             @Test
@@ -25,11 +28,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.TWO),
                     Card(Suit.SPADE, Weight.TEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 900_242, type = HandType.STRAIGHT_FLUSH)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 900_242, handType = HandType.STRAIGHT_FLUSH),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -37,7 +39,7 @@ internal class HandRankTest {
         inner class `when list of cards is a four of a kind` {
             @Test
             fun `should return a PlayerHandScore with handType as quadruple`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.SPADE, Weight.TEN),
                     Card(Suit.HEART, Weight.TEN),
                     Card(Suit.DIAMOND, Weight.TEN),
@@ -46,11 +48,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.DIAMOND, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 840_017, type = HandType.QUADRUPLE)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 840_017, handType = HandType.QUADRUPLE),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -58,7 +59,7 @@ internal class HandRankTest {
         inner class `when list of cards is a full house` {
             @Test
             fun `should return a PlayerHandScore with handType as full house`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.DIAMOND, Weight.TEN),
                     Card(Suit.SPADE, Weight.TEN),
                     Card(Suit.CLUB, Weight.TEN),
@@ -67,11 +68,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.FOUR)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 703_249, type = HandType.FULL_HOUSE)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 703_249, handType = HandType.FULL_HOUSE),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -79,7 +79,7 @@ internal class HandRankTest {
         inner class `when list of cards is a flush` {
             @Test
             fun `should return a PlayerHandScore with handType as flush`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.DIAMOND, Weight.FOUR),
                     Card(Suit.DIAMOND, Weight.FIVE),
                     Card(Suit.CLUB, Weight.TEN),
@@ -88,11 +88,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 600_047, type = HandType.FLUSH)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 600_047, handType = HandType.FLUSH),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -100,7 +99,7 @@ internal class HandRankTest {
         inner class `when list of cards is a straight` {
             @Test
             fun `should return a PlayerHandScore with handType as straight`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.SPADE, Weight.JACK),
                     Card(Suit.HEART, Weight.NINE),
                     Card(Suit.DIAMOND, Weight.TEN),
@@ -109,11 +108,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.TWO),
                     Card(Suit.CLUB, Weight.TEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 500_242, type = HandType.STRAIGHT)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 500_242, handType = HandType.STRAIGHT),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -121,7 +119,7 @@ internal class HandRankTest {
         inner class `when list of cards is a three of a kind` {
             @Test
             fun `should return a PlayerHandScore with handType as three of a kind`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.SPADE, Weight.TEN),
                     Card(Suit.HEART, Weight.TEN),
                     Card(Suit.DIAMOND, Weight.TEN),
@@ -130,11 +128,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 403_021, type = HandType.TRIPLE)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 403_021, handType = HandType.TRIPLE),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -142,7 +139,7 @@ internal class HandRankTest {
         inner class `when list of cards is a two pair` {
             @Test
             fun `should return a PlayerHandScore with handType as two pair`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.SPADE, Weight.TEN),
                     Card(Suit.HEART, Weight.TEN),
                     Card(Suit.DIAMOND, Weight.FOUR),
@@ -151,11 +148,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 300_249, type = HandType.TWO_PAIR)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 300_249, handType = HandType.TWO_PAIR),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -163,7 +159,7 @@ internal class HandRankTest {
         inner class `when list of cards is a pair` {
             @Test
             fun `should return a PlayerHandScore with handType as pair`() {
-                val aHand = listOf<Card>(
+                val aHand = listOf(
                     Card(Suit.SPADE, Weight.TEN),
                     Card(Suit.HEART, Weight.TEN),
                     Card(Suit.DIAMOND, Weight.FOUR),
@@ -172,11 +168,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 200_226, type = HandType.PAIR)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 200_226, handType = HandType.PAIR),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
 
@@ -193,11 +188,10 @@ internal class HandRankTest {
                     Card(Suit.CLUB, Weight.THREE),
                     Card(Suit.CLUB, Weight.QUEEN)
                 )
+                val actual = handScoreConverter.convertToHandScore(aHand)
+                val expected = HandScore(value = 100_049, type = HandType.HIGH_CARD)
 
-                assertEquals(
-                    PlayerHandScore(handScore = 100_049, handType = HandType.HIGH_CARD),
-                    aHand.handRanking()
-                )
+                assertEquals(expected, actual)
             }
         }
     }
