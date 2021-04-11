@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class HandRankingTest {
+class HandRankingsTest {
     private val muckHand = listOf(
         Card(Suit.SPADE, Weight.TEN),
         Card(Suit.HEART, Weight.KING),
