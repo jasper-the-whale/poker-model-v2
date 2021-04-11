@@ -6,10 +6,10 @@ data class MatchResults(
 )
 
 data class MatchRecord(
-    val playerHand: HandType,
-    val bestHandScore: Long,
+    val playerHandType: HandType,
+    val bestHandValue: Long,
     val bestHandType: HandType,
-    val isHandWinning: Boolean
+    val isPlayerHandWinning: Boolean
 )
 
 data class MatchOutcome(

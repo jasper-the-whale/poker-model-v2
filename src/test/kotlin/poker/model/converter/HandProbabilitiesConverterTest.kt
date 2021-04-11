@@ -2,4 +2,4 @@ package poker.model.converter
 
 import org.junit.jupiter.api.Assertions.*
 
-internal class HandProbabilitiesConverterTest
+class HandProbabilitiesConverterTest

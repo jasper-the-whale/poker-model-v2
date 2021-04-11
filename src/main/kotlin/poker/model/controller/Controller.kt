@@ -20,10 +20,7 @@ class Controller(
     val matchSummaryConverter: MatchSummaryConverter = MatchSummaryConverter()
 ) {
 
-
-    @ApiOperation(
-        value = "Get match probabilities of a poker game"
-    )
+    @ApiOperation(value = "Get match probabilities of a poker game")
     @GetMapping("/outcomes")
     @ResponseBody
     fun getHandOutcomes(

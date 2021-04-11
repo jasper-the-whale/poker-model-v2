@@ -9,9 +9,7 @@ fun convertToHandProbabilities(isPlayer: Boolean, matchResults: MatchResults): H
     val totalMatches = matchResults.matchRecords.size
     val handTypesGrouped = groupByHandType(matchResults.matchRecords)
 
-    val winningHands = if (isPlayer) {
-        handTypesGrouped.mapToWinningHands()
-    } else handTypesGrouped.mapToLosingHands()
+    val winningHands = if (isPlayer) handTypesGrouped.mapToWinningHands() else handTypesGrouped.mapToLosingHands()
 
     return HandProbabilities(
         highCard = probabilityOfHandType(winningHands, HandType.HIGH_CARD, totalMatches),
@@ -27,13 +25,13 @@ fun convertToHandProbabilities(isPlayer: Boolean, matchResults: MatchResults): H
 }
 
 private fun groupByHandType(matchResults: List<MatchRecord>): Map<HandType, List<MatchRecord>> =
-    matchResults.groupBy { it.playerHand }
+    matchResults.groupBy { it.playerHandType }
 
 private fun Map<HandType, List<MatchRecord>>.mapToWinningHands(): Map<HandType, Int> =
-    this.mapValues { it.value.filter { matchResult -> matchResult.isHandWinning }.size }
+    this.mapValues { it.value.filter { matchResult -> matchResult.isPlayerHandWinning }.size }
 
 private fun Map<HandType, List<MatchRecord>>.mapToLosingHands(): Map<HandType, Int> =
-    this.mapValues { it.value.filter { matchResult -> !matchResult.isHandWinning }.size }
+    this.mapValues { it.value.filter { matchResult -> !matchResult.isPlayerHandWinning }.size }
 
 private fun probabilityOfHandType(winningHands: Map<HandType, Int>, handType: HandType, totalMatches: Int): Double {
     val totalSims = totalMatches.toDouble()

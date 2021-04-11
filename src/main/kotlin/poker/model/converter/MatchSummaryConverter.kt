@@ -31,7 +31,7 @@ class MatchSummaryConverter {
     }
 
     private fun playerWinProbability(matchResults: List<MatchRecord>) =
-        matchResults.map { it.isHandWinning }.count { it }.div(matchResults.size.toDouble())
+        matchResults.map { it.isPlayerHandWinning }.count { it }.div(matchResults.size.toDouble())
 
     private fun calculateExpectedValue(winProb: Double, cashToWin: Long, cashToLose: Long): Long =
         (winProb * cashToWin - (1 - winProb) * cashToLose).roundToLong()

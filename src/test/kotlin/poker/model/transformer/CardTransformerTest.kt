@@ -92,20 +92,20 @@ class CardTransformerTest {
             }
 
             @Test
-            fun `when number is 50 should return ace of spades`() {
-                assertEquals(Card(Suit.SPADE, Weight.ACE), cardTransformer.convertToCard(50))
+            fun `when number is 24 should return eight of hearts`() {
+                assertEquals(Card(Suit.HEART, Weight.SEVEN), cardTransformer.convertToCard(24))
             }
 
             @Test
-            fun `when number is 24 should return eight of hearts`() {
-                assertEquals(Card(Suit.HEART, Weight.SEVEN), cardTransformer.convertToCard(24))
+            fun `when number is 50 should return ace of spades`() {
+                assertEquals(Card(Suit.SPADE, Weight.ACE), cardTransformer.convertToCard(50))
             }
         }
 
         @Nested
         inner class `when request perameter is an invalid number` {
             @Test
-            fun `should throw exception`() {
+            fun `should throw no such element exception`() {
                 assertThrows<NoSuchElementException> { cardTransformer.convertToCard(60) }
             }
         }
